@@ -22,12 +22,12 @@ type IUsersRepository interface {
     GetUserById(id int32) (d.User, error)
 }
 
-func(ur *UsersRepository) GetAllUsers() []d.User {
-    return users
-}
-
 func GetUsersRepositoryInstance() *UsersRepository{
     return &UsersRepository{}
+}
+
+func(ur *UsersRepository) GetAllUsers() []d.User {
+    return users
 }
 
 func (ur *UsersRepository) GetUserById(id int32) (d.User, error) {

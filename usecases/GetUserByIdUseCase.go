@@ -1,13 +1,13 @@
 package usecases
 
 import (
-    d "main/domain"
-    s "main/services"
-    "encoding/json"
+	"encoding/json"
+	d "main/domain"
+	s "main/services"
 )
 
 type GetUserByIdUseCase struct {
-    UsersService s.IUsersService
+    usersService s.IUsersService
 }
 
 type IGetUserByIdUseCase interface {
@@ -15,7 +15,7 @@ type IGetUserByIdUseCase interface {
 }
 
 func (ubi *GetUserByIdUseCase) Handle(id int) (string, error) {
-    user := us.GetUserById(int32(id))
+    user := ubi.usersService.GetUserById(int32(id))
     usersJson, err := serializeUserJson(user)
 
     if err != nil {
@@ -25,7 +25,7 @@ func (ubi *GetUserByIdUseCase) Handle(id int) (string, error) {
     return usersJson, nil
 }
 
-func CreateGetUserByIdUseCase() *GetUserByIdUseCase {
+func CreateGetUserByIdUseCase(us s.IUsersService) *GetUserByIdUseCase {
     return &GetUserByIdUseCase{us}
 }
 

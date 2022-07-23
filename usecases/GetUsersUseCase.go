@@ -6,12 +6,8 @@ import (
     "encoding/json"
 )
 
-var (
-    us s.IUsersService = s.GetUsersServiceInstance()
-)
-
 type GetUsersUseCase struct {
-    UsersService s.IUsersService
+    usersService s.IUsersService
 }
 
 type IGetUsersUseCase interface {
@@ -19,7 +15,7 @@ type IGetUsersUseCase interface {
 }
 
 func (uc *GetUsersUseCase) Handle() (string, error) {
-    users := us.GetAllUsers()
+    users := uc.usersService.GetAllUsers()
     usersJson, err := serializeUsersJson(users)
 
     if err != nil {
@@ -29,8 +25,8 @@ func (uc *GetUsersUseCase) Handle() (string, error) {
     return usersJson, nil
 }
 
-func CreateGetUsersUseCase() *GetUsersUseCase {
-    return &GetUsersUseCase{us}
+func CreateGetUsersUseCase(usersService s.IUsersService) *GetUsersUseCase {
+    return &GetUsersUseCase{usersService}
 }
 
 func serializeUsersJson(data []d.User) (string, error) {

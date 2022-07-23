@@ -1,6 +1,8 @@
 package main
 
 import (
+    r "main/repositories"
+    s "main/services"
 	uc "main/usecases"
 	"net/http"
     "strconv"
@@ -8,8 +10,11 @@ import (
 )
 
 var (
-    getUsers = uc.CreateGetUsersUseCase()
-    getUserById = uc.CreateGetUserByIdUseCase()
+    usersRepository = r.GetUsersRepositoryInstance()
+    usersService = s.GetUsersServiceInstance(usersRepository)
+    
+    getUsers = uc.CreateGetUsersUseCase(usersService)
+    getUserById = uc.CreateGetUserByIdUseCase(usersService)
 )
 
 func main() {

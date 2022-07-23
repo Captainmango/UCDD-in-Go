@@ -5,10 +5,6 @@ import (
 	r "main/repositories"
 )
 
-var (
-    usersRepository = r.GetUsersRepositoryInstance()
-)
-
 type UsersService struct {
     UserRepository r.IUsersRepository
 }
@@ -18,12 +14,12 @@ type IUsersService interface {
     GetUserById(id int32) d.User
 }
 
-func (us *UsersService) GetAllUsers() []d.User {
-    return us.UserRepository.GetAllUsers()
+func GetUsersServiceInstance(usersRepository r.IUsersRepository) *UsersService {
+    return &UsersService{usersRepository}
 }
 
-func GetUsersServiceInstance() *UsersService {
-    return &UsersService{usersRepository}
+func (us *UsersService) GetAllUsers() []d.User {
+    return us.UserRepository.GetAllUsers()
 }
 
 func (us *UsersService) GetUserById(id int32) d.User {
